@@ -19,6 +19,8 @@ void checker() {
 	char checkList[1][5] = {};
 	int i;
 	int change;
+	int win;
+	int lose;
 	while (attempts < 7) {
 
 		printf("\n************ Welcome to Wordle ************\n\n");
@@ -49,6 +51,7 @@ void checker() {
 			}
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
 			printf("\n   You got the correct answer!!!   \n");
+			win += 1;
 			break;
 			}
 		else {
@@ -61,16 +64,29 @@ void checker() {
 			}
 		}
 		if (((answer[0] != guess[0][0]) || (answer[1] != guess[0][1]) || (answer[2] != guess[0][2]) || (answer[3] != guess[0][3]) || (answer[4] != guess[0][4])) && (attempts == 6)) {
-			change = 1;
+			change += 1;
 			}
 		if (change == 1) {
-			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %c\n   Good luck next time!!\n\n", answer[i]);
+			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %c\n   Good luck next time!!\n\n", answer[1]);
+			lose += 1;
 			}
-			
+		\\\ add play again, not play again => veiw stats yes or no => yes run statistics function \\\
+	
 	}
 
+void statistics(int win, int lose){
 
-
+	
+	int totalgames = lose + win;
+	int winPercent = win / totalGames;
+	printf("    Game Statistics:    \n\n");
+	printf("Games won: %d", win);
+	printf("Games lost: %d", lose);
+	printf("Total games played: %d", totalGames);
+	printf("Win percentage: %d%", winPercent);
+	
+	return 0;	
+}
 
 int main() {
 	srand(time(NULL));
