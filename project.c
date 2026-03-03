@@ -20,9 +20,10 @@ void checker() {
 	int i;
 	int change;
 	while (attempts < 7) {
-		
-		printf("%d attempts remaining\n", 6 - attempts);
-		printf("Guess a 5 letter word: ");
+
+		printf("\n************ Welcome to Wordle ************\n\n");
+		printf("             %d Attempts remaining  \n", 6 - attempts);
+		printf("\n   Guess a 5 letter word: ");
 		scanf(" %s", &guess);
 		for (i=0; i<5; i++) {
 			guess[0][i] = tolower(guess[0][i]);
@@ -47,7 +48,7 @@ void checker() {
 				}
 			}
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
-			printf("\n you got the correct answer!\n");
+			printf("\n   You got the correct answer!!!   \n");
 			break;
 			}
 		else {
@@ -63,7 +64,7 @@ void checker() {
 			change = 1;
 			}
 		if (change == 1) {
-			printf("\nYou were not able to guess the word in 6 tries. The correct word was %c\n", answer[i]);
+			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %c\n   Good luck next time!!\n\n", answer[i]);
 			}
 			
 	}
