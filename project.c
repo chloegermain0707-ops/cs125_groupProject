@@ -67,7 +67,7 @@ void checker() {
 			change += 1;
 			}
 		if (change == 1) {
-			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %c\n   Good luck next time!!\n\n", answer[1]);
+			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %s\n   Good luck next time!!\n\n", answer);
 			lose += 1;
 			}
 		\\\ add play again, not play again => veiw stats yes or no => yes run statistics function \\\
