@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include "wordleStats.h"
 
+#define STATS_FILE "WordleStats.txt"
 int attempts = 0;
 char answer[5] = {};
 
@@ -15,12 +17,13 @@ void wordSelection(int x){
 	}
 
 void checker() {
+
+	Gamestats stats = load_statistics();
 	char guess[1][6] = {};
 	char checkList[1][5] = {};
 	int i;
 	int change;
-	int win;
-	int lose;
+
 	while (attempts < 7) {
 
 		printf("\n************ Welcome to Wordle ************\n\n");
@@ -51,7 +54,8 @@ void checker() {
 			}
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
 			printf("\n   You got the correct answer!!!   \n");
-			win += 1;
+			stats.win += 1;
+			
 			break;
 			}
 		else {
@@ -68,24 +72,48 @@ void checker() {
 			}
 		if (change == 1) {
 			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %s\n   Good luck next time!!\n\n", answer);
-			lose += 1;
+			stats.lose += 1;
 			}
+
+		stats.totalGames++;
+		stats.winPercent = stats.win / stats.totalGames;
+		save_stats(&stats);
+	
 		\\\ add play again, not play again => veiw stats yes or no => yes run statistics function \\\
 	
 	}
 
-void statistics(int win, int lose){
+GameStats load_statistics(){ 
 
+	Gamestats stats
+	FILE *file = fopen(STATS_FILE, "r");
+	if (file != NULL){
+		fread(&stats, sizeof(Gamestats), 1, file);
+		fclose(file);
+	}
+	return stats;
+}
+
+void save_stats(Gamestats *stats){
+
+	FILE *file = fopen(STATS_FILE, "w");
+	if (file == NULL){
+		printf("Error opening file\n");
+		return 1;
+	}
+	fwrite(stats, sizeof(Gamestats), 1, file);
+	fclose(file);
+}
 	
-	int totalgames = lose + win;
-	int winPercent = win / totalGames;
+
+void print_stats(){
+	
 	printf("    Game Statistics:    \n\n");
-	printf("Games won: %d", win);
-	printf("Games lost: %d", lose);
-	printf("Total games played: %d", totalGames);
-	printf("Win percentage: %d%", winPercent);
+	printf("Games won: %d", stats.win);
+	printf("Games lost: %d", stats.lose);
+	printf("Total games played: %d", stats.totalGames);
+	printf("Win percentage: %.2lf%", stats.winPercent);
 	
-	return 0;	
 }
 
 int main() {
