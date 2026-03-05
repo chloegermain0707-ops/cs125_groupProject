@@ -6,7 +6,7 @@ typedef struct{
 	int win;
 	int lose;
 	int totalGames;
-	int winPercent;
+	double winPercent;
 
 } Gamestats;
 
