@@ -96,7 +96,7 @@ GameStats load_statistics(){
 
 void save_stats(Gamestats *stats){
 
-	FILE *file = fopen(STATS_FILE, "w");
+	FILE *file = fopen(STATS_FILE, "a");
 	if (file == NULL){
 		printf("Error opening file\n");
 		return 1;
