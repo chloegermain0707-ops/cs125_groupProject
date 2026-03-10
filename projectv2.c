@@ -18,12 +18,13 @@ void wordSelection(int x){
 
 void checker() {
 
-	typedef 
+	GameStats *stats = malloc(1* sizeof(GameStats));
 	load_statistics();
 	char guess[1][6] = {};
 	char checkList[1][5] = {};
 	int i;
 	int change;
+	int choice;
 
 	while (attempts < 7) {
 
@@ -56,8 +57,7 @@ void checker() {
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
 			printf("\n   You got the correct answer!!!   \n");
 			stats.win += 1;
-			
-			break;
+		
 			}
 		else {
 			
@@ -74,13 +74,19 @@ void checker() {
 		if (change == 1) {
 			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %s\n   Good luck next time!!\n\n", answer);
 			stats.lose += 1;
+			
 			}
-
 		stats.totalGames++;
 		stats.winPercent = stats.win / stats.totalGames;
-		save_stats(&stats);
-	
+		save_stats(STATS_FILE, &stats);
+
+		printf("Would you like to play again or view stats? (1- play again, 2- view stats):  ");
+		scanf("%d", &choice);
+
+		if (choice == 2);
+			printstats();
 		/* add play again, not play again => veiw stats yes or no => yes run statistics function */
+	
 	
 	}
 
@@ -95,7 +101,7 @@ void Gamestats load_statistics(){
 	return stats;
 }
 
-int save_stats(Gamestats *stats){
+int save_stats(Gamestats *s){
 
 	FILE *file = fopen(STATS_FILE, "a");
 	if (file == NULL){
