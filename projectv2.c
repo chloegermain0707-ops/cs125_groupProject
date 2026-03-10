@@ -24,39 +24,56 @@ void checker() {
 	stats = load_statistics();
 	
 	char guess[1][6] = {};
-	char checkList[1][5] = {};
 	int i;
 	int change;
 	int choice;
+ 	char checkList[5] = {};
+    int result[5] = {0,0,0,0,0};
+    int used[5] = {0,0,0,0,0};
+    for (i = 0; i < 5; i++){
+            checkList[i] = answer[i];
+    }
+    while (attempts < 7) {
 
-	while (attempts < 7) {
+        printf("%d attempts remaining\n", 6 - attempts);
+        printf("Guess a 5 letter word: ");
+        scanf(" %s", &guess);
+        for (i=0; i<5; i++) {
+            guess[0][i] = tolower(guess[0][i]);
+        }
+        attempts++;
+        for (i = 0; i < 5; i++){
+            if (guess[0][i] == answer[i]) {
+                    result[i] = 2;
+                    used[i] = 1;
+            }
+        }
 
-		printf("\n************ Welcome to Wordle ************\n\n");
-		printf("             %d Attempts remaining  \n", 6 - attempts);
-		printf("\n   Guess a 5 letter word: ");
-		scanf(" %s", &guess);
-		for (i=0; i<5; i++) {
-			guess[0][i] = tolower(guess[0][i]);
-		}
-		attempts++;
-		for (i = 0; i < 5; i++) {
-			checkList[0][i] = guess[0][i];
-			if (answer[i] == guess[0][i]) {
-				printf("\e[1;32m%c\e[0;37m ", guess[0][i]);
-				checkList[0][i] = (guess[0][i] + '1');
-				}
-			else if ((answer[0] == guess[0][i]) || (answer[1] == guess[0][i]) || (answer[2] == guess[0][i]) || (answer[3] == guess[0][i]) || (answer[4] == guess[0][i])) {
-				if ((checkList[0][0] == (guess[0][i] + '1')) || (checkList[0][1] == (guess[0][i] + '1')) || (checkList[0][2] == (guess[0][i] + '1')) || (checkList[0][3] == (guess[0][i] + '1')) || (checkList[0][4] == (guess[0][i] + '1'))){
-                                        printf("%c ", guess[0][i]);
-                                        }
-				else {
-					printf("\e[0;93m%c\e[0;37m ", guess[0][i]);
-					}
-				}
-			else {
-				printf("%c ", guess[0][i]);
-				}
-			}
+        for (i = 0; i < 5; i++) {
+                if (result[i] == 0) {
+                        for (change = 0; change < 5; change ++){
+                                if (!used[change] && guess[0][i] == answer[change]){
+                                            result[i] = 1;
+                                            used[change] = 1;
+                                            break;
+                                }
+                        }
+                }
+        }
+        for (i = 0; i < 5; i++) {
+                if (result[i] == 2) {
+                        printf("\e[1;32m%c\e[0;37m ", guess[0][i]);
+                }
+
+                else if (result[i] == 1) {
+                        printf("\e[0;93m%c\e[0;37m ", guess[0][i]);
+                }
+
+                else {
+                        printf("%c ", guess[0][i]);
+                }
+        }
+
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
 			printf("\n   You got the correct answer!!!   \n");
 			stats.win++;
