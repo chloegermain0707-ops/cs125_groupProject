@@ -5,6 +5,8 @@
 #include "wordleStats.h"
 
 #define STATS_FILE "WordleStats.txt"
+GameStats load_statistics();
+int save_stats(Gamestats *s);
 int attempts = 0;
 char answer[5] = {};
 
@@ -18,8 +20,9 @@ void wordSelection(int x){
 
 void checker() {
 
-	GameStats *stats = malloc(1* sizeof(GameStats));
-	load_statistics();
+	Gamestats stats;
+	stats = load_statistics();
+	
 	char guess[1][6] = {};
 	char checkList[1][5] = {};
 	int i;
@@ -56,7 +59,7 @@ void checker() {
 			}
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
 			printf("\n   You got the correct answer!!!   \n");
-			stats.win += 1;
+			stats.win++;
 		
 			}
 		else {
@@ -73,12 +76,12 @@ void checker() {
 			}
 		if (change == 1) {
 			printf("\n   You were not able to guess the word in 6 tries.\n   The correct word was: %s\n   Good luck next time!!\n\n", answer);
-			stats.lose += 1;
+			stats.lose++;
 			
 			}
 		stats.totalGames++;
-		stats.winPercent = stats.win / stats.totalGames;
-		save_stats(STATS_FILE, &stats);
+		stats.winPercent = ((double)stats.win / stats.totalGames) *100;
+		save_stats(&stats);
 
 		printf("Would you like to play again or view stats? (1- play again, 2- view stats):  ");
 		scanf("%d", &choice);
@@ -90,12 +93,12 @@ void checker() {
 	
 	}
 
-void Gamestats load_statistics(){ 
+Gamestats load_statistics(){ 
 
 	Gamestats stats;
-	FILE *file = fopen(STATS_FILE, "r");
+	FILE *file = fopen(STATS_FILE, "rb");
 	if (file != NULL){
-		fread(&stats, sizeof(stats), 1, file); /* Figure out sizeof(stats) */
+		fread(&stats, sizeof(Gamestats), 1, file); /* Figure out sizeof(stats) */
 		fclose(file);
 	}
 	return stats;
@@ -103,7 +106,7 @@ void Gamestats load_statistics(){
 
 int save_stats(Gamestats *s){
 
-	FILE *file = fopen(STATS_FILE, "a");
+	FILE *file = fopen(STATS_FILE, "wb");
 	if (file == NULL){
 		printf("Error opening file\n");
 		return 1;
