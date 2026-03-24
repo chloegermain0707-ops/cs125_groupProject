@@ -68,6 +68,7 @@ void checker() {
 
 	/**********************************************************/
 
+	/*************Make statement to detect guess with symbol or number***********/
 	for (i = 0; i < 5; i++){
 		guessCheck = 0;
 		if (isalpha(guess[0][i])){
@@ -84,6 +85,7 @@ void checker() {
 		attempts--;
 		continue;
 	}
+	/**********************************************************/	
 	int result[5] = {0,0,0,0,0};
     	int used[5] = {0,0,0,0,0};
 	
