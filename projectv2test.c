@@ -41,6 +41,7 @@ void checker() {
 	int i;
 	int change;
  	char checkList[5] = {};
+	int guessCheck = 0;
     for (i = 0; i < 5; i++){
             checkList[i] = answer[i];
     }
@@ -59,7 +60,7 @@ void checker() {
 
 	/**************Make statement to detect guess not 5 letters long***********/	
 
-	if (strlen(guess) > 6 || strlen(guess) < 4) {
+	if ((strlen(guess[0])) != 5) {
 		printf("\nYour word was not 5 letters. Try again.\n");
 		attempts--;
 		continue;
@@ -67,8 +68,18 @@ void checker() {
 
 	/**********************************************************/
 
+	for (i = 0; i < 4; i++){
+		if (isdigit(guess[i])){
+			guessCheck = 1;
+			break;
+		}
+	}
 	
-
+	if (guessCheck == 1){
+		printf("\nYour input included a number/symbol. Try again.\n");
+		attempts--;
+		continue;
+	}
 	int result[5] = {0,0,0,0,0};
     	int used[5] = {0,0,0,0,0};
 	
@@ -118,7 +129,7 @@ void checker() {
 		}
 		if (((answer[0] != guess[0][0]) || (answer[1] != guess[0][1]) || (answer[2] != guess[0][2]) || (answer[3] != guess[0][3]) || (answer[4] != guess[0][4])) && (attempts == 6)) {
 			change += 1;
-			printf("\n   You were not able to guess the word in 6 tries.\$
+			printf("\n   You were not able to guess the word in 6 tries.\n");
                         stats.lose++;
 
 			}
