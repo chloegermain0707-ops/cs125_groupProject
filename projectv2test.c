@@ -23,13 +23,13 @@ void wordSelection(int x){
 
 void print_stats(){
 
-        printf("\n\n.・。.・゜✭・.・✫・゜・。..・。.・゜✭・.・✫・゜・。.\n");
+        printf("\n\n--------------------------------\n");
 	printf("    Game Statistics:    \n\n");
         printf("Games won: %d\n", stats.win);
         printf("Games lost: %d\n", stats.lose);
         printf("Total games played: %d\n", stats.totalGames);
         printf("Win percentage: %.2lf%%\n", stats.winPercent);
-	printf(".・。.・゜✭・.・✫・゜・。..・。.・゜✭・.・✫・゜・。.\n\n");
+	printf("--------------------------------\n\n");
 
 }
 
@@ -68,8 +68,12 @@ void checker() {
 
 	/**********************************************************/
 
-	for (i = 0; i < 4; i++){
-		if (isdigit(guess[i])){
+	for (i = 0; i < 5; i++){
+		guessCheck = 0;
+		if (isalpha(guess[0][i])){
+			continue;
+		}
+		else {
 			guessCheck = 1;
 			break;
 		}
@@ -117,7 +121,7 @@ void checker() {
         }
 
 		if ((answer[0] == guess[0][0]) && (answer[1] == guess[0][1]) && (answer[2] == guess[0][2]) && (answer[3] == guess[0][3]) && (answer[4] == guess[0][4])) {
-			printf("\n\n.・。.・゜✭・.・✫・゜・。..・。.・゜✭・.・✫・゜・。.\n");
+			printf("\n\n*********************************\n");
 			printf("\n   	You got the correct answer!!!\n");
 			stats.win++;
 			break;
@@ -139,7 +143,7 @@ void checker() {
 
 		printf("Would you like to play again or view stats?\n\n(1- View stats and play again, 2- View stats and quit):  ");
 		scanf("%d", &choice);
-		printf("\n\n.・。.・゜✭・.・✫・゜・。..・。.・゜✭・.・✫・゜・。.\n\n");
+		printf("\n\n*********************************\n\n");
 
 		print_stats();
 		
@@ -172,8 +176,6 @@ int save_stats(Gamestats *s){
 	
 
 int main() {
-
-	printf("\n\033[38;2;255;182;193m  ✧･ﾟ: *✧･ﾟ:* ✧･ﾟ: *✧･ﾟ:*  Welcome to Wordle  ✧･ﾟ: *✧･ﾟ:* ✧･ﾟ: *✧･ﾟ:*\033[0m\n");
 	while (choice == 1){
 		srand(time(NULL));
 		wordSelection(rand() %99);
